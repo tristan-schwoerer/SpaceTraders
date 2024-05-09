@@ -179,84 +179,84 @@ class SupplyLevel(Enum):
 
 class Contract():
     def __init__(self, JSON) -> None:
-        id: str = JSON["id"]
-        factionSymbol: FactionSymbol = FactionSymbol(JSON["factionSymbol"])
-        type: ContractType = ContractType(JSON["type"])
-        terms: ContractTerms = ContractTerms(JSON["terms"])
-        accepted: bool = JSON["accepted"]
-        expiration: datetime=datetime.fromisoformat(JSON["expiration"])
-        deadlineToAccept: datetime=datetime.fromisoformat(JSON["deadlineToAccept"])
+        self.id: str = JSON["id"]
+        self.factionSymbol: FactionSymbol = FactionSymbol(JSON["factionSymbol"])
+        self.type: ContractType = ContractType(JSON["type"])
+        self.terms: ContractTerms = ContractTerms(JSON["terms"])
+        self.accepted: bool = JSON["accepted"]
+        self.expiration: datetime=datetime.fromisoformat(JSON["expiration"])
+        self.deadlineToAccept: datetime=datetime.fromisoformat(JSON["deadlineToAccept"])
 
 class ContractDeliveryGood():
     def __init__(self,JSON) -> None:
-        tradeSymbol: TradeSymbol = TradeSymbol(JSON["tradeSymbol"])
-        destinationSymbol: str = JSON["destinationSymbol"]
-        unitsRequired: int = JSON["unitsRequired"]
-        unitsFulfilled: int = JSON["unitsFulfilled"]
+        self.tradeSymbol: TradeSymbol = TradeSymbol(JSON["tradeSymbol"])
+        self.destinationSymbol: str = JSON["destinationSymbol"]
+        self.unitsRequired: int = JSON["unitsRequired"]
+        self.unitsFulfilled: int = JSON["unitsFulfilled"]
 
 class ContractPayment():
     def __init__(self,JSON) -> None:
-        onAccepted: int= JSON["unitsRequired"]
-        onFulfilled: int = JSON["unitsFulfilled"]
+        self.onAccepted: int= JSON["onAccepted"]
+        self.onFulfilled: int = JSON["onFulfilled"]
 
 class ContractTerms():
     def __init__(self, JSON) -> None:
-        deadline: datetime=datetime.fromisoformat(JSON["deadline"])
-        payment: ContractPayment = ContractPayment(JSON["payment"])
-        deliver: List[ContractDeliveryGood] = [ContractDeliveryGood(i) for i in JSON["deliver"]]
+        self.deadline: datetime=datetime.fromisoformat(JSON["deadline"])
+        self.payment: ContractPayment = ContractPayment(JSON["payment"])
+        self.deliver: List[ContractDeliveryGood] = [ContractDeliveryGood(i) for i in JSON["deliver"]]
 
 
 
 class Market():
     def __init__(self, JSON) -> None:
-        symbol: str = JSON["symbol"]
-        exports: List[TradeGood] = [TradeGood(i) for i in JSON["exports"]]
-        imports: List[TradeGood] = [TradeGood(i) for i in JSON["imports"]]
-        exchange: List[TradeGood] = [TradeGood(i) for i in JSON["exchange"]]
-        transactions: List[MarketTransaction] = [MarketTransaction(i) for i in JSON["transactions"]]
-        tradeGoods: List[MarketTradeGood] = [MarketTradeGood(i) for i in JSON["tradeGoods"]]
+        self.symbol: str = JSON["symbol"]
+        self.exports: List[TradeGood] = [TradeGood(i) for i in JSON["exports"]]
+        self.imports: List[TradeGood] = [TradeGood(i) for i in JSON["imports"]]
+        self.exchange: List[TradeGood] = [TradeGood(i) for i in JSON["exchange"]]
+        self.transactions: List[MarketTransaction] = [MarketTransaction(i) for i in JSON["transactions"]]
+        self.tradeGoods: List[MarketTradeGood] = [MarketTradeGood(i) for i in JSON["tradeGoods"]]
 
 class TradeGoodBase():#TODO could inherit from Deposit class
     def __init__(self,JSON) -> None:
-        symbol:TradeSymbol = TradeSymbol(JSON["symbol"])
+        self.symbol:TradeSymbol = TradeSymbol(JSON["symbol"])
 
 class TradeGood(TradeGoodBase):#TODO could inherit from Deposit class
     def __init__(self,JSON) -> None:
         super().__init__(JSON)
-        name:str=JSON["name"]
-        description:str=JSON["description"]
+        self.name:str=JSON["name"]
+        self.description:str=JSON["description"]
 
 class MarketTradeGood(TradeGoodBase):
     def __init__(self, JSON) -> None:
         super().__init__(JSON)
-        type: TradeGoodType = TradeGoodType(JSON["type"])
-        tradeVolume: int = JSON["tradeVolume"]
-        supply: SupplyLevel = SupplyLevel(JSON["supply"])
-        activity: ActivityLevel = ActivityLevel(JSON["activity"])
-        purchasePrice: int = JSON["purchasePrice"]
-        sellPrice: int = JSON["sellPrice"]
+        self.type: TradeGoodType = TradeGoodType(JSON["type"])
+        self.tradeVolume: int = JSON["tradeVolume"]
+        self.supply: SupplyLevel = SupplyLevel(JSON["supply"])
+        self.activity: ActivityLevel = ActivityLevel(JSON["activity"])
+        self.purchasePrice: int = JSON["purchasePrice"]
+        self.sellPrice: int = JSON["sellPrice"]
 
 class TransactionBase():
     def __init__(self, JSON):
-        waypointSymbol: str = JSON["waypointSymbol"]
-        shipSymbol: str = JSON["shipSymbol"]
-        timestamp: datetime=datetime.fromisoformat(JSON["timestamp"])
+        self.waypointSymbol: str = JSON["waypointSymbol"]
+        self.shipSymbol: str = JSON["shipSymbol"]
+        self.timestamp: datetime=datetime.fromisoformat(JSON["timestamp"])
 
 class MarketTransaction(TransactionBase):
     def __init__(self, JSON):
         super().__init__(JSON)
-        tradeSymbol: TradeSymbol = TradeSymbol(JSON["tradeSymbol"])
-        type: TransactionType = TransactionType(JSON["type"])
-        units: int = JSON["units"]
-        pricePerUnits: int = JSON["pricePerUnits"]
-        totalPrice: int = JSON["totalPrice"]
+        self.tradeSymbol: TradeSymbol = TradeSymbol(JSON["tradeSymbol"])
+        self.type: TransactionType = TransactionType(JSON["type"])
+        self.units: int = JSON["units"]
+        self.pricePerUnits: int = JSON["pricePerUnits"]
+        self.totalPrice: int = JSON["totalPrice"]
         
 class RepairTransaction(TransactionBase):
     def __init__(self, JSON):
         super().__init__(JSON)
-        totalPrice: int = JSON["totalPrice"]
+        self.totalPrice: int = JSON["totalPrice"]
 
 class ScrapTransaction(TransactionBase):
     def __init__(self, JSON):
         super().__init__(JSON)
-        totalPrice: int = JSON["totalPrice"]
+        self.totalPrice: int = JSON["totalPrice"]

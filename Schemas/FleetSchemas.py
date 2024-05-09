@@ -352,11 +352,14 @@ class ShipRequirements():
 
 class Shipyard():
     def __init__(self, JSON) -> None:
+        print(JSON)
         self.symbol: str= JSON["symbol"]
-        self.shipTypes: List[ShipType] = [ShipType(i) for i in JSON["shipTypes"]]
-        self.transaction: List[ShipyardTransaction] = [ShipyardTransaction(i) for i in JSON["transactions"]]
-        self.ships: List[Ship] = [Ship(i) for i in JSON["ships"]]
-        self.modifactionsFee: int = JSON["modifactionsFee"]
+        self.shipTypes: List[ShipType] = [ShipType(i["type"]) for i in JSON["shipTypes"]]
+        if "transactions" in JSON: self.transaction: List[ShipyardTransaction] = [ShipyardTransaction(i) for i in JSON["transactions"]]
+        else: self.transaction=None
+        if "ships" in JSON: self.ships: List[Ship] = [Ship(i) for i in JSON["ships"]]
+        else: self.ships = None
+        self.modifactionsFee: int = JSON["modificationsFee"]
 
 class ShipyardShip(ShipBase):
     def __init__(self,JSON) -> None:

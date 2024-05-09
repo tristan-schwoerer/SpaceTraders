@@ -146,18 +146,26 @@ class SystemWaypoint():
 
 class Waypoint():
     def __init__(self,JSON):
+        print("-------------------------------------------")
+        print(JSON)
         self.symbol: str = JSON["symbol"]
         self.type: WaypointType = WaypointType(JSON["type"])
         self.x: int = JSON["x"]
         self.y: int = JSON["y"]
         self.orbitals: List[WaypointOrbital] = [WaypointOrbital(i) for i in JSON["orbitals"]]
-        self.orbits: str = JSON["orbits"]
-        self.factions: SystemFaction = SystemFaction(JSON["faction"])
-        self.traits: List[WaypointTrait] = [WaypointTrait(i) for i in JSON["traits"]]
-        self.modifiers: List[WaypointModifier] = [WaypointModifier(i) for i in JSON["modifiers"]]
-        self.chart: Chart = Chart(JSON["chart"])
-        self.isUnderConstruction: bool = JSON["isUnderConstruction"]
-
+        if "orbits" in JSON: self.orbits: str = JSON["orbits"] 
+        else: self.orbits=None
+        if "faction" in JSON: self.factions: SystemFaction = SystemFaction(JSON["faction"])
+        else: self.factions=None
+        if "traits" in JSON:
+            self.traits: List[WaypointTrait] = [WaypointTrait(i) for i in JSON["traits"]]
+        else: self.traits= None
+        if "modifiers" in JSON: self.modifiers: List[WaypointModifier] = [WaypointModifier(i) for i in JSON["modifiers"]]
+        else: self.modifiers = None
+        if "chart" in JSON: self.chart: Chart = Chart(JSON["chart"])
+        else: self.chart= None
+        if "isUnderConstruction" in JSON: self.isUnderConstruction: bool = JSON["isUnderConstruction"]
+        else: self.isUnderConstruction= None
 class WaypointFaction():
     def __init__(self, JSON):
         self.symbol:FactionSymbol=FactionSymbol(JSON["symbol"])
@@ -181,8 +189,11 @@ class WaypointTrait():
 
 class Chart():
     def __init__(self,JSON):
-        self.waypointSymbol: str=JSON["waypointSymbol"]
-        self.submittedBy: Agent=Agent(JSON["submittedBy"]) #TODO this might be just the agentsymbol
+        print("------------")
+        print(JSON)
+        if "waypointSymbol" in JSON: self.waypointSymbol: str=JSON["waypointSymbol"]
+        else: self.waypointSymbol = None 
+        self.submittedBy: str=JSON["submittedBy"]
         self.submittedOn: datetime=datetime.fromisoformat(JSON["submittedOn"])
 
 class JumpGate():
