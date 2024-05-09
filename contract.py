@@ -12,7 +12,6 @@ def listContracts(token: str, page: int=1, limit: int=10) -> Tuple[List[Contract
     querystring = {"page":f"{page}","limit":f"{limit}"}
     #Return a paginated list of all your contracts.
     response = requests.get(f"{url}/my/contracts", headers=GetHeader(token), params=querystring).json()
-
     contracts=[Contract(i) for i in response["data"]]
     meta= Meta(response["meta"])
     return contracts,meta

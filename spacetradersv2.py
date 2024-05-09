@@ -1,11 +1,15 @@
 from APIutils import *
+from Schemas.ContractSchemas import Contract
 from agent import *
+from contract import acceptContractById, listContracts
 from fleet import listShips, shipRefine
 from game import *
+from system import *
 
+from pprint import pprint
 email="tristan@5schwoerer.de"
 player_symbol="tristan9497"
-token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiVFJJU1RBTjk0OTciLCJ2ZXJzaW9uIjoidjIuMi4wIiwicmVzZXRfZGF0ZSI6IjIwMjQtMDQtMjgiLCJpYXQiOjE3MTUwMjQ1OTEsInN1YiI6ImFnZW50LXRva2VuIn0.CGoeDBoAL9YD7fIr1kDdaOXau8OID7NDx-XHLaVSLSgpoarcci6DlgqytPMonB6jDjEB6ORLzt-E43wvI8lqYX0-s4XLZVgcFhAaRTqrZAgzuG9BWmPDacRmPzawLjpof8OmiUFzyFr8HOerhFOTC9naHVtCQmWZFI2_UFnR8trvfn4tUHlHFJaSAp6kXTlyWzmOiLNZhdF6VEY6RdrWMnCh-uTpcaw6Qyycph7T4Zdw0Y121oNMFZmWdX0FUkWfM3s-fF67AMPSjakzV4GcuCNQBYuKuFPCS-QWPICp_TRUP6aKZJAl32z92OcuPmNZO5tXFqKyF2fvIismsGKhNw"
+token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiVFJJU1RBTjk0OTgiLCJ2ZXJzaW9uIjoidjIuMi4wIiwicmVzZXRfZGF0ZSI6IjIwMjQtMDQtMjgiLCJpYXQiOjE3MTUyNjkzNjIsInN1YiI6ImFnZW50LXRva2VuIn0.C6tqxSHHiAF7E8THdh8lBHU-LIjB-y0TR8bPm6lLcVsEp6xtkUb5bmFPfU9jvmcj8gIo31-p02UZgiDO0K69bNkCUePyZN0oObCcCWGTBkDaBF1FuQKbD_isgux8G5t5DT2TNZRRObbef474zaxfDPT_00Mg9GW2y5NYYxXVi9qs2Kjdj3uIexRkq6swXUkzAVFgAyPA8tEoja-Y2kE3Wj_SteciSRLWificrqaCO_QsnUcE26fbzENn9pdkCD5eAlsTRJyI3S-Gavy2f3DYa_0eJzt5M7stsDQO-6p0xYq0O_0XHTcWpvLeQ4RbP2pXk_iMIi6NO-zG7sSD9z7_MQ"
 
 
 
@@ -14,21 +18,29 @@ token="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiVFJJU1RBTjk0OTci
 
 
 
+def firstmission():
 
-# def firstMission():
-#     status=getStatus().json()["status"]
-#     if status=="SpaceTraders is currently online and available to play":
-#         Agent=getAgent(token)
-#         ships=listShips(token,page=2,limit=2).json()["data"]
+    contracts,meta =listContracts(token)
+    pprint(vars(contracts[0]))
+    agent, contract= acceptContractById(token,contracts[0].id)
+    wp,_=listWaypointsInSystem("X1-HF96",[WaypointTraitSymbol.SHIPYARD])
+    shipyard=getShipyard("X1-HF96","X1-HF96-C43")
+    pprint(vars(agent))
+    print("--------------------------------------")
+    pprint(vars(contract))
 
-#         print(ships)
-#         # scanWaypoints
-#         # response=registerPlayer(str(Faction.COSMIC.value),"Tristan9497","tristan@5schwoerer.de")
 if __name__=="__main__":
-    # print(registerPlayer(FactionSymbol.AEGIS.value,"Tristan9497","tristan@5schwoerer.de").json())
+    # print(registerPlayer(FactionSymbol.AEGIS.value,"Tristan9498","tristan@5schwoerer.de").json())
     # print(getStatus().json())
-    print(getAgent(token).symbol)
-    ships, meta=listShips(token)
-    print(ships[0].symbol)
+    #print(listSystems())
+    # sys,_= listSystems(20,20)
     
-    # print(getPublicAgent("TRISTAN9497").accountID)
+
+    # pprint(vars(getAgent(token)))
+    shipyard=getShipyard("X1-HF96","X1-HF96-C43")
+
+    pprint(vars(shipyard))
+    # waypoints,_=listWaypointsInSystem(":systemSymbol",[WaypointTraitSymbol.SHIPYARD])
+
+    # pprint(vars(waypoints[0]))
+    
